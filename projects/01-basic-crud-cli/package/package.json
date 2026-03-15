@@ -4,11 +4,15 @@
   "description": "CLI para gestión de reservas de biblioteca UCAB con CRUD en PostgreSQL",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "test": "jest"
   },
   "dependencies": {
     "pg": "^8.11.0",
     "dotenv": "^16.3.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   },
   "keywords": ["cli", "postgresql", "crud", "node.js"],
   "author": "Manuel (estudiante UCAB)",
