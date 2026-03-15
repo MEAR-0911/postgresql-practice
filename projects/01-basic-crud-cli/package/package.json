@@ -1,0 +1,16 @@
+{
+  "name": "01-basic-crud-cli",
+  "version": "1.0.0",
+  "description": "CLI para gestión de reservas de biblioteca UCAB con CRUD en PostgreSQL",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "pg": "^8.11.0",
+    "dotenv": "^16.3.0"
+  },
+  "keywords": ["cli", "postgresql", "crud", "node.js"],
+  "author": "Manuel (estudiante UCAB)",
+  "license": "MIT"
+}
