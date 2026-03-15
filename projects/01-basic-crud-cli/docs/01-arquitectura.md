@@ -6,8 +6,8 @@
 - **Funcionalidades Clave:**
   - **Crear Reserva:** Solicita nombre_libro, nombre_usuario, correo_ucab (valida formato @est.ucab.edu.ve). Calcula fecha_entrega automáticamente (fecha_reserva + 7 días).
   - **Leer Reservas:** Lista todas las reservas; si no hay, mensaje "No hay reservas aún".
-  - **Actualizar Reserva:** Busca reservas por correo_ucab (muestra lista si hay múltiples), permite editar nombre_libro, nombre_usuario o correo_ucab, recalcula fecha_entrega si cambia fecha_reserva.
-  - **Eliminar Reserva:** Busca por correo_ucab y elimina la reserva seleccionada.
+  - **Actualizar Reserva:** Busca la reserva por correo_ucab (el sistema asume que hay solo una reserva por correo). Permite editar nombre_libro, nombre_usuario o correo_ucab. El correo se valida en el CLI antes de consultar para evitar errores de constraint y no se requiere identificar la reserva por ID.
+  - **Eliminar Reserva:** Busca la reserva por correo_ucab, muestra el registro y pide confirmación antes de eliminar.
   - **Manejo de Errores:** Captura errores de PostgreSQL (e.g., violación de CHECK, unicidad) y los mapea a mensajes claros con códigos HTTP-like, explicando qué significa cada uno (e.g., 400: "Datos inválidos - El correo debe terminar en @est.ucab.edu.ve").
 - **Buenas Prácticas de PostgreSQL (de skills/postgres/skill.md):** 
   - Usar transacciones para operaciones atómicas (evita estados inconsistentes).
@@ -23,7 +23,7 @@
   - `id` (SERIAL PRIMARY KEY): ID único auto-incremental.
   - `nombre_libro` (VARCHAR(255) NOT NULL): Nombre del libro reservado.
   - `nombre_usuario` (VARCHAR(255) NOT NULL): Nombre del usuario que reserva.
-  - `correo_ucab` (VARCHAR(255) NOT NULL, CHECK (correo_ucab ~* '@est\.ucab\.edu\.ve$')): Correo UCAB válido.
+  - `correo_ucab` (VARCHAR(255) NOT NULL UNIQUE CHECK (correo_ucab ILIKE '%@est.ucab.edu.ve')): Correo UCAB válido. Se garantiza unicidad para que un usuario tenga una sola reserva activa.
   - `fecha_reserva` (TIMESTAMP DEFAULT NOW()): Fecha de creación automática.
   - `fecha_entrega` (TIMESTAMP NOT NULL): Calculada como fecha_reserva + 7 días.
 - **Relaciones:** Ninguna (tabla independiente).
